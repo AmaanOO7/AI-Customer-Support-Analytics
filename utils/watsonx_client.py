@@ -7,8 +7,9 @@ import json
 import logging
 from typing import Dict, Any, Optional
 import requests
-from ibm_watson_machine_learning.foundation_models import Model
-from ibm_watson_machine_learning.metanames import GenTextParamsMetaNames as GenParams
+from ibm_watsonx_ai import Credentials
+from ibm_watsonx_ai.foundation_models import ModelInference
+from ibm_watsonx_ai.metanames import GenTextParamsMetaNames as GenParams
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -22,15 +23,15 @@ class WatsonxClient:
         self.api_key = os.getenv('IBM_CLOUD_API_KEY')
         self.project_id = os.getenv('WATSONX_PROJECT_ID')
         self.url = os.getenv('WATSONX_URL', 'https://us-south.ml.cloud.ibm.com')
-        self.model_id = os.getenv('MODEL_ID', 'ibm/granite-13b-chat-v2')
+        self.model_id = os.getenv('MODEL_ID', 'bm/granite-4-h-small')
         
         if not self.api_key or not self.project_id:
             raise ValueError("IBM_CLOUD_API_KEY and WATSONX_PROJECT_ID must be set in environment")
         
-        self.credentials = {
-            "url": self.url,
-            "apikey": self.api_key
-        }
+        self.credentials = Credentials(
+            url=self.url,
+            api_key=self.api_key
+            )
         
         self.model_params = {
             GenParams.DECODING_METHOD: "greedy",
@@ -46,7 +47,7 @@ class WatsonxClient:
     
     def _create_model(self) -> Model:
         """Create a new model instance"""
-        return Model(
+        return ModelInference(
             model_id=self.model_id,
             params=self.model_params,
             credentials=self.credentials,
@@ -68,15 +69,15 @@ class WatsonxClient:
             params = self.model_params.copy()
             params[GenParams.MAX_NEW_TOKENS] = max_tokens
             
-            model = Model(
+            model = ModelInference(
                 model_id=self.model_id,
                 params=params,
                 credentials=self.credentials,
                 project_id=self.project_id
             )
             
-            response = model.generate_text(prompt=prompt)
-            return response.strip()
+            response = model.generate(prompt=prompt)
+                return response.strip()
             
         except Exception as e:
             logger.error(f"Error generating text: {str(e)}")
