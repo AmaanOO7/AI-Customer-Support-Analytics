@@ -1,6 +1,7 @@
 # Web Framework
 Flask==3.0.3
 Werkzeug==3.0.6
+gunicorn==23.0.0
 
 # Environment Variables
 python-dotenv==1.0.1
