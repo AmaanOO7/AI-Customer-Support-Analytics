@@ -122,107 +122,52 @@ class WatsonxClient:
     
             raise
 
-    def analyze_customer_message(
+    def analyze_ticket(
         self,
         customer_message: str,
         agent_response: str = ""
     ) -> Dict[str, Any]:
-
+    
         prompt = f"""
-You are an expert customer support analyst.
-
-Customer Message:
-{customer_message}
-
-Agent Response:
-{agent_response}
-
-You MUST return ONLY valid JSON. 
-Do NOT explain anything. 
-Do NOT use markdown. 
-Do NOT wrap JSON in ``` blocks. 
-Output must start with "{" and end with "}".
-
-{{
-"complaint_summary":"",
-"sentiment":"",
-"emotion":"",
-"intent":"",
-"issue_category":"",
-"priority":"",
-"urgency":"",
-"customer_satisfaction_score":80,
-"churn_risk":"",
-"escalation_needed":"",
-"escalation_reason":"",
-"root_cause":"",
-"keywords":[]
-}}
-"""
-
-        return self.generate_json_response(prompt)
-
-    def analyze_agent_response(
-        self,
-        customer_message: str,
-        agent_response: str
-    ) -> Dict[str, Any]:
-
-        prompt = f"""
-Customer:
-{customer_message}
-
-Agent:
-{agent_response}
-
-Return ONLY JSON.
-
-{{
-"professionalism_score":0,
-"empathy_score":0,
-"grammar_score":0,
-"clarity_score":0,
-"resolution_quality_score":0,
-"friendliness_score":0,
-"overall_score":0,
-"strengths":[],
-"weaknesses":[],
-"improvements":[],
-"improved_response":""
-}}
-"""
-
-        return self.generate_json_response(prompt)
-
-    def generate_business_insights(
-        self,
-        analytics_summary: Dict[str, Any]
-    ) -> Dict[str, Any]:
-
-        prompt = f"""
-Analytics
-
-{json.dumps(analytics_summary)}
-
-Return ONLY JSON.
-
-{{
-"executive_summary":"",
-"top_complaint_categories":[],
-"most_common_issues":[],
-"sentiment_overview":"",
-"business_risks":[],
-"operational_bottlenecks":[],
-"top_performing_agents":[],
-"low_performing_agents":[],
-"actionable_recommendations":[],
-"monthly_trends":"",
-"weekly_trends":"",
-"customer_satisfaction_trends":"",
-"escalation_trends":"",
-"resolution_performance":""
-}}
-"""
+    You are an expert customer support quality analyst.
+    
+    Analyze BOTH the customer message and the agent response.
+    
+    Customer Message:
+    {customer_message}
+    
+    Agent Response:
+    {agent_response}
+    
+    Return ONLY valid JSON.
+    
+    {{
+    "complaint_summary":"",
+    "sentiment":"",
+    "emotion":"",
+    "intent":"",
+    "issue_category":"",
+    "priority":"",
+    "urgency":"",
+    "customer_satisfaction_score":80,
+    "churn_risk":"",
+    "escalation_needed":"",
+    "escalation_reason":"",
+    "root_cause":"",
+    "keywords":[],
+    "professionalism_score":0,
+    "empathy_score":0,
+    "grammar_score":0,
+    "clarity_score":0,
+    "resolution_quality_score":0,
+    "friendliness_score":0,
+    "overall_score":0,
+    "strengths":[],
+    "weaknesses":[],
+    "improvements":[],
+    "improved_response":""
+    }}
+    """
 
         return self.generate_json_response(prompt)
 
