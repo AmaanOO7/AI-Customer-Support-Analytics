@@ -24,12 +24,12 @@ class WatsonxClient:
         self.project_id = os.getenv("WATSONX_PROJECT_ID")
         self.url = os.getenv(
             "WATSONX_URL",
-            "https://au-syd.ml.cloud.ibm.com"
+            "https://us-south.ml.cloud.ibm.com"
         )
 
         self.model_id = os.getenv(
             "MODEL_ID",
-            "meta-llama/llama-3-3-70b-instruct"
+            "ibm/granite-4-h-small"
         )
 
         if not self.api_key:
