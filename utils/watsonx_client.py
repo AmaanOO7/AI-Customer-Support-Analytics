@@ -23,7 +23,7 @@ class WatsonxClient:
         self.api_key = os.getenv('IBM_CLOUD_API_KEY')
         self.project_id = os.getenv('WATSONX_PROJECT_ID')
         self.url = os.getenv('WATSONX_URL', 'https://us-south.ml.cloud.ibm.com')
-        self.model_id = os.getenv('MODEL_ID', 'bm/granite-4-h-small')
+        self.model_id = os.getenv('MODEL_ID', 'ibm/granite-4-h-small')
         
         if not self.api_key or not self.project_id:
             raise ValueError("IBM_CLOUD_API_KEY and WATSONX_PROJECT_ID must be set in environment")
@@ -45,7 +45,7 @@ class WatsonxClient:
         
         logger.info(f"Watsonx client initialized with model: {self.model_id}")
     
-    def _create_model(self) -> Model:
+    def _create_model(self) -> ModelInference:
         """Create a new model instance"""
         return ModelInference(
             model_id=self.model_id,
@@ -55,33 +55,27 @@ class WatsonxClient:
         )
     
     def generate_text(self, prompt: str, max_tokens: int = 2000) -> str:
-        """
-        Generate text using IBM Granite model
-        
-        Args:
-            prompt: Input prompt for the model
-            max_tokens: Maximum tokens to generate
-            
-        Returns:
-            Generated text response
-        """
-        try:
-            params = self.model_params.copy()
-            params[GenParams.MAX_NEW_TOKENS] = max_tokens
-            
-            model = ModelInference(
-                model_id=self.model_id,
-                params=params,
-                credentials=self.credentials,
-                project_id=self.project_id
-            )
-            
-            response = model.generate(prompt=prompt)
-                return response.strip()
-            
-        except Exception as e:
-            logger.error(f"Error generating text: {str(e)}")
-            raise
+    """
+    Generate text using IBM Granite model
+    """
+    try:
+        params = self.model_params.copy()
+        params[GenParams.MAX_NEW_TOKENS] = max_tokens
+
+        model = ModelInference(
+            model_id=self.model_id,
+            credentials=self.credentials,
+            project_id=self.project_id,
+            params=params
+        )
+
+        response = model.generate(prompt=prompt)
+
+        return response["results"][0]["generated_text"].strip()
+
+    except Exception as e:
+        logger.error(f"Error generating text: {str(e)}")
+        raise
     
     def generate_json_response(self, prompt: str, max_tokens: int = 2000) -> Dict[str, Any]:
         """
