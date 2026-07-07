@@ -93,23 +93,33 @@ class WatsonxClient:
         prompt: str,
         max_tokens: int = 1500
     ) -> Dict[str, Any]:
-
+    
         response = self.generate_text(prompt, max_tokens)
-
-        logger.info(f"RAW MODEL RESPONSE: {response}")
-        
-        # Remove markdown fences
-        response = response.replace("```json", "") 
-        response = response.replace("```", "") 
+    
+        logger.info("========== MODEL RESPONSE ==========")
+        logger.info(response)
+        logger.info("====================================")
+    
+        if "```json" in response:
+            response = response.split("```json")[1].split("```")[0]
+        elif "```" in response:
+            response = response.replace("```", "")
+    
         response = response.strip()
-
-        # Extract JSON object
-        match = re.search(r"\{.*\}", response, re.DOTALL)
-
-        if match:
-            response = match.group(0)
-                return json.loads(response)
-        
+    
+        try:
+            return json.loads(response)
+    
+        except Exception as e:
+            logger.error(f"JSON Parse Error: {e}")
+            logger.error(f"Response was:\n{response}")
+    
+            start = response.find("{")
+            end = response.rfind("}")
+    
+            if start != -1 and end != -1:
+                return json.loads(response[start:end + 1])
+    
             raise
 
     def analyze_customer_message(
