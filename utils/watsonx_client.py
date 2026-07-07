@@ -31,7 +31,14 @@ class WatsonxClient:
             "MODEL_ID",
             "ibm/granite-4-h-small"
         )
-
+        logger.info("=" * 60)
+        logger.info(f"API KEY EXISTS: {bool(self.api_key)}")
+        logger.info(f"API KEY LENGTH: {len(self.api_key) if self.api_key else 0}")
+        logger.info(f"PROJECT ID: {self.project_id}")
+        logger.info(f"URL: {self.url}")
+        logger.info(f"MODEL ID: {self.model_id}")
+        logger.info("=" * 60)
+        
         if not self.api_key:
             raise ValueError("IBM_CLOUD_API_KEY not found")
 
