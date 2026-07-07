@@ -29,7 +29,7 @@ class WatsonxClient:
 
         self.model_id = os.getenv(
             "MODEL_ID",
-            "ibm/granite-3-8b-instruct"
+            "ibm/granite-4-h-small"
         )
 
         if not self.api_key:
