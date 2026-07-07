@@ -4,6 +4,7 @@ Compatible with ibm-watsonx-ai==1.1.20
 """
 
 import os
+import re
 import json
 import logging
 from typing import Dict, Any
@@ -95,30 +96,19 @@ class WatsonxClient:
 
         response = self.generate_text(prompt, max_tokens)
 
-        logger.info("========== MODEL RESPONSE ==========")
-        logger.info(response)
-        logger.info("====================================")
+        logger.info(f"RAW MODEL RESPONSE: {response}")
         
-        if "```json" in response:
-            response = response.split("```json")[1].split("```")[0]
-
-        elif "```" in response:
-            response = response.split("```")[1].split("```")[0]
-
+        # Remove markdown fences
+        response = response.replace("```json", "") 
+        response = response.replace("```", "") 
         response = response.strip()
 
-        try:
-            return json.loads(response)
+        # Extract JSON object
+        match = re.search(r"\{.*\}", response, re.DOTALL)
 
-        except Exception as e:
-            logger.error(f"JSON Parse Error: {e}")
-            logger.error(f"Response was:\n{response}")
-        
-            start = response.find("{")
-            end = response.rfind("}")
-        
-            if start != -1 and end != -1:
-                return json.loads(response[start:end + 1])
+        if match:
+            response = match.group(0)
+                return json.loads(response)
         
             raise
 
@@ -137,7 +127,11 @@ Customer Message:
 Agent Response:
 {agent_response}
 
-Return ONLY valid JSON.
+You MUST return ONLY valid JSON. 
+Do NOT explain anything. 
+Do NOT use markdown. 
+Do NOT wrap JSON in ``` blocks. 
+Output must start with "{" and end with "}".
 
 {{
 "complaint_summary":"",
