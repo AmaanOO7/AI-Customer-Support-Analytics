@@ -95,6 +95,10 @@ class WatsonxClient:
 
         response = self.generate_text(prompt, max_tokens)
 
+        logger.info("========== MODEL RESPONSE ==========")
+        logger.info(response)
+        logger.info("====================================")
+        
         if "```json" in response:
             response = response.split("```json")[1].split("```")[0]
 
@@ -106,14 +110,16 @@ class WatsonxClient:
         try:
             return json.loads(response)
 
-        except Exception:
-
+        except Exception as e:
+            logger.error(f"JSON Parse Error: {e}")
+            logger.error(f"Response was:\n{response}")
+        
             start = response.find("{")
             end = response.rfind("}")
-
+        
             if start != -1 and end != -1:
                 return json.loads(response[start:end + 1])
-
+        
             raise
 
     def analyze_customer_message(
