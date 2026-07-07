@@ -42,27 +42,15 @@ class AIAnalyzer:
             
             if not customer_message or customer_message == 'nan':
                 return {'error': 'No customer message found'}
-            
-            # Analyze customer message
-            customer_analysis = self.watsonx.analyze_customer_message(
+
+            analysis = self.watsonx.analyze_ticket(
                 customer_message=customer_message,
-                agent_response=agent_response if agent_response != 'nan' else ''
+                agent_response=agent_response if agent_response != "nan" else ""
             )
-            
-            # Analyze agent response if available
-            agent_analysis = {}
-            if agent_response and agent_response != 'nan':
-                try:
-                    agent_analysis = self.watsonx.analyze_agent_response(
-                        customer_message=customer_message,
-                        agent_response=agent_response
-                    )
-                except Exception as e:
-                    logger.warning(f"Agent analysis failed: {str(e)}")
-                    agent_analysis = {'error': str(e)}
             
             # Combine analyses
             result = {
+
                 'ticket_id': row.get('ticket_id', ''),
                 'customer_name': row.get('customer_name', ''),
                 'agent_name': row.get('agent_name', ''),
@@ -71,9 +59,9 @@ class AIAnalyzer:
                 'category': row.get('category', ''),
                 'status': row.get('status', ''),
                 'customer_message': customer_message,
-                'agent_response': agent_response if agent_response != 'nan' else '',
-                **customer_analysis,
-                'agent_analysis': agent_analysis
+                'agent_response': agent_response,
+            
+                **analysis
             }
             
             return result
@@ -112,7 +100,7 @@ class AIAnalyzer:
                 "error": str(e)
             }
     
-    def analyze_dataset(self, df: pd.DataFrame, max_workers: int = 5, sample_size: Optional[int] = None) -> List[Dict[str, Any]]:
+    def analyze_dataset(self, df: pd.DataFrame, max_workers: int = 1, sample_size: Optional[int] = None) -> List[Dict[str, Any]]:
         """
         Analyze entire dataset with parallel processing
         
