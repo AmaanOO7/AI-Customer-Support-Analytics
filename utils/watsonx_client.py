@@ -171,6 +171,37 @@ class WatsonxClient:
 
         return self.generate_json_response(prompt)
 
+    def generate_business_insights(self, analytics_summary: Dict[str, Any]) -> Dict[str, Any]:
+
+        prompt = f"""
+    You are a senior business analyst.
+    
+    Below is customer support analytics data.
+    
+    {json.dumps(analytics_summary, indent=2)}
+    
+    Return ONLY valid JSON.
+    
+    {{
+        "executive_summary":"",
+        "top_complaint_categories":[],
+        "most_common_issues":[],
+        "sentiment_overview":"",
+        "business_risks":[],
+        "operational_bottlenecks":[],
+        "top_performing_agents":[],
+        "low_performing_agents":[],
+        "actionable_recommendations":[],
+        "monthly_trends":"",
+        "weekly_trends":"",
+        "customer_satisfaction_trends":"",
+        "escalation_trends":"",
+        "resolution_performance":""
+    }}
+    """
+    
+        return self.generate_json_response(prompt, 1200)
+
     def test_connection(self):
 
         try:
