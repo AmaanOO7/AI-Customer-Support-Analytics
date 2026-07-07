@@ -55,19 +55,26 @@ class WatsonxClient:
         )
     
     def generate_text(self, prompt: str, max_tokens: int = 2000) -> str:
-    """
-    Generate text using IBM Granite model
-    """
-    try:
-        params = self.model_params.copy()
-        params[GenParams.MAX_NEW_TOKENS] = max_tokens
-
-        model = ModelInference(
-            model_id=self.model_id,
-            credentials=self.credentials,
-            project_id=self.project_id,
-            params=params
-        )
+            """
+            Generate text using IBM Granite model
+    
+        Args:
+            prompt: Input prompt for the model
+            max_tokens: Maximum tokens to generate
+    
+        Returns:
+            Generated text response
+        """
+        try:
+            params = self.model_params.copy()
+            params[GenParams.MAX_NEW_TOKENS] = max_tokens
+    
+            model = ModelInference(
+                model_id=self.model_id,
+                credentials=self.credentials,
+                project_id=self.project_id,
+                params=params
+            )
 
         response = model.generate(prompt=prompt)
 
