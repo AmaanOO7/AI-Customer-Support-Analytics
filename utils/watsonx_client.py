@@ -30,7 +30,7 @@ class WatsonxClient:
 
         self.model_id = os.getenv(
             "MODEL_ID",
-            "ibm/granite-4-h-small"
+            "meta-llama/llama-3-3-70b-instruct"
         )
         logger.info("=" * 60)
         logger.info(f"API KEY EXISTS: {bool(self.api_key)}")
