@@ -1,0 +1,6 @@
+﻿ticket_id,date,customer_name,customer_email,channel,agent_name,customer_message,agent_response,status
+1004,02-07-2026,Emily Davis,emily@example.com,Email,Chris,I cancelled my subscription but you still billed my credit card.,I'm sorry. We'll verify your cancellation request and process a refund if applicable.,Pending
+1012,06-07-2026,Ava Harris,ava@example.com,Email,Chris,I want to cancel my account permanently.,We'll process your account deletion request within 48 hours.,Resolved
+1013,07-07-2026,Noah Martin,noah@example.com,Chat,Alice,My payment failed three times but money has been deducted.,We're investigating the failed transactions and will reverse any incorrect charges.,Open
+1014,07-07-2026,Isabella Garcia,isabella@example.com,Email,Bob,The order arrived but several items are missing.,We're sorry. We'll ship the missing items immediately.,Resolved
+1017,09-07-2026,Ethan Lewis,ethan@example.com,Email,Alice,I forgot my password and verification email never arrives.,We've resent the verification email. Please check your spam folder.,Resolved
