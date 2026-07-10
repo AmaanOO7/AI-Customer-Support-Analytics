@@ -123,7 +123,8 @@ async function uploadFile() {
     
     // Show progress
     showProgress(0, 'Uploading file...');
-    
+    // Show AI Analysis Loader
+    document.getElementById('analysisLoader').style.display = 'flex';
     try {
         // Upload file
         const uploadResponse = await fetch('/upload', {
@@ -159,14 +160,23 @@ async function uploadFile() {
         
         showProgress(100, 'Analysis complete! Redirecting...');
         
+        // Hide loader
+        document.getElementById('analysisLoader').style.display = 'none';
+        
         // Redirect to dashboard
         setTimeout(() => {
             window.location.href = analyzeResult.redirect || '/dashboard';
         }, 1000);
         
-    } catch (error) {
+    } 
+        catch (error) {
         console.error('Error:', error);
+    
         hideProgress();
+    
+        // Hide AI Loader
+        document.getElementById('analysisLoader').style.display = 'none';
+    
         showAlert(error.message, 'danger');
     }
 }
