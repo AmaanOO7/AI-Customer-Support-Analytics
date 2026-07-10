@@ -740,3 +740,113 @@ canvas {
     color: var(--info-color);
     border-left: 4px solid var(--info-color);
 }
+
+/* =======================================================
+   AI Analysis Loader
+======================================================= */
+
+.analysis-loader{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(20,25,45,.45);
+
+    backdrop-filter:blur(8px);
+
+    z-index:999999;
+
+}
+
+.analysis-box{
+
+    width:420px;
+
+    padding:35px;
+
+    background:white;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+
+}
+
+body.dark-mode .analysis-box{
+
+    background:#22263d;
+
+    color:white;
+
+}
+
+.chart-loader{
+
+    margin-bottom:25px;
+
+}
+
+.graph-path{
+
+    fill:none;
+
+    stroke:#0F62FE;
+
+    stroke-width:5;
+
+    stroke-linecap:round;
+
+    stroke-linejoin:round;
+
+    stroke-dasharray:320;
+
+    stroke-dashoffset:320;
+
+    animation:drawGraph 1.8s linear infinite;
+
+}
+
+@keyframes drawGraph{
+
+    0%{
+
+        stroke-dashoffset:320;
+
+    }
+
+    100%{
+
+        stroke-dashoffset:0;
+
+    }
+
+}
+
+.analysis-box h4{
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.analysis-box p{
+
+    color:#666;
+
+}
+
+body.dark-mode .analysis-box p{
+
+    color:#ccc;
+
+}
