@@ -278,20 +278,29 @@ def get_tickets():
 
 @app.route('/api/ticket/<ticket_id>')
 def get_ticket_detail(ticket_id):
-    """API endpoint to get detailed ticket analysis"""
     try:
         analysis_results = analysis_cache.get("latest", {}).get("analysis_results", [])
-        
+
+        print("\n========== DEBUG ==========")
+        print("Requested Ticket ID:", repr(ticket_id))
+        print("Total tickets:", len(analysis_results))
+
+        for i, r in enumerate(analysis_results[:10]):
+            print(i, "Stored:", repr(r.get("ticket_id")))
+
         ticket_detail = ai_analyzer.get_ticket_details(analysis_results, ticket_id)
-        
+
+        print("Found:", ticket_detail is not None)
+        print("===========================\n")
+
         if not ticket_detail:
-            return jsonify({'error': 'Ticket not found'}), 404
-        
+            return jsonify({"error": "Ticket not found"}), 404
+
         return jsonify(ticket_detail)
-        
+
     except Exception as e:
-        logger.error(f"Error getting ticket detail: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        print(e)
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/api/filters')
