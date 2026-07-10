@@ -272,5 +272,44 @@
     
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- ================= AI Analysis Loader ================= -->
+    <div id="analysisLoader" class="analysis-loader">
+    
+        <div class="analysis-box">
+    
+            <svg class="chart-loader"
+                 width="220"
+                 height="120"
+                 viewBox="0 0 220 120">
+    
+                <!-- X Axis -->
+                <line x1="15" y1="100" x2="205" y2="100"
+                      stroke="#cfd8dc"
+                      stroke-width="2"/>
+    
+                <!-- Y Axis -->
+                <line x1="15" y1="10" x2="15" y2="100"
+                      stroke="#cfd8dc"
+                      stroke-width="2"/>
+    
+                <!-- Animated Graph -->
+                <path
+                    d="M15 85
+                       L50 65
+                       L80 72
+                       L120 35
+                       L155 55
+                       L205 25"
+    
+                    class="graph-path"/>
+            </svg>
+    
+            <h4>Analyzing...</h4>
+    
+            <p>Please wait while IBM Granite AI processes your dataset.</p>
+    
+        </div>
+    
+    </div>
 </body>
 </html>
