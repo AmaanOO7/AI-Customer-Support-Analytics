@@ -340,7 +340,7 @@ class AIAnalyzer:
                 'actionable_recommendations': []
             }
     
-   def get_ticket_details(
+    def get_ticket_details(
         self,
         analysis_results: List[Dict[str, Any]],
         ticket_id: str
