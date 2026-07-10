@@ -50,18 +50,17 @@ class AIAnalyzer:
             
             # Combine analyses
             result = {
-
-                'ticket_id': row.get('ticket_id', ''),
-                'customer_name': row.get('customer_name', ''),
-                'agent_name': row.get('agent_name', ''),
-                'date': str(row.get('date', '')),
-                'product': row.get('product', ''),
-                'category': row.get('category', ''),
-                'status': row.get('status', ''),
-                'customer_message': customer_message,
-                'agent_response': agent_response,
+                **analysis,
             
-                **analysis
+                "ticket_id": row.get("ticket_id", ""),
+                "customer_name": row.get("customer_name", ""),
+                "agent_name": row.get("agent_name", ""),
+                "date": str(row.get("date", "")),
+                "product": row.get("product", ""),
+                "category": row.get("category", ""),
+                "status": row.get("status", ""),
+                "customer_message": customer_message,
+                "agent_response": agent_response,
             }
             
             return result
@@ -341,14 +340,38 @@ class AIAnalyzer:
                 'actionable_recommendations': []
             }
     
-   def get_ticket_details(self, analysis_results: List[Dict[str, Any]], 
-                ticket_id: str) -> Optional[Dict[str, Any]]: 
-            """ Get detailed analysis for a specific ticket 
-            Args: analysis_results: List of all analysis results ticket_id: ID of the ticket to retrieve Returns: Ticket analysis details or None """ 
-                    for result in analysis_results: 
-                        if str(result.get('ticket_id', '')) == str(ticket_id): 
-                            return result 
-                            return None
+   def get_ticket_details(self, analysis_results: List[Dict[str, Any]], ticket_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Get detailed analysis for a specific ticket
+        """
+    
+        search_id = str(ticket_id).strip()
+    
+        print("\n========== SEARCH ==========")
+        print("Searching for:", repr(search_id))
+    
+        for result in analysis_results:
+            stored = result.get("ticket_id")
+    
+            print(
+                "Stored:",
+                repr(stored),
+                "| type:",
+                type(stored)
+            )
+    
+            stored_id = str(stored).strip()
+    
+            # Handle values like 1004.0
+            if stored_id.endswith(".0"):
+                stored_id = stored_id[:-2]
+    
+            if stored_id == search_id:
+                print("MATCH FOUND")
+                return result
+    
+        print("NO MATCH FOUND")
+        return None
     
     def get_time_series_data(self, analysis_results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
