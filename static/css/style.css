@@ -34,10 +34,11 @@
 body.dark-mode {
     --dark-color: #ECF0F1;
     --light-color: #2C3E50;
-    --glass-bg: rgba(0, 0, 0, 0.3);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    background-color: #1a1a2e;
-    color: #ECF0F1;
+    --glass-bg: rgba(0,0,0,.3);
+    --glass-border: rgba(255,255,255,.1);
+
+    background: linear-gradient(135deg,#121826,#1b2338);
+    color:#ECF0F1;
 }
 /* KPI Card text in Dark Mode */
 body.dark-mode .kpi-card,
