@@ -39,7 +39,21 @@ body.dark-mode {
     background-color: #1a1a2e;
     color: #ECF0F1;
 }
+/* KPI Card text in Dark Mode */
+body.dark-mode .kpi-card,
+body.dark-mode .kpi-card .card-body {
+    color: #ECF0F1;
+}
 
+body.dark-mode .kpi-card h3,
+body.dark-mode .kpi-card h4,
+body.dark-mode .kpi-card h5,
+body.dark-mode .kpi-card h6,
+body.dark-mode .kpi-card p,
+body.dark-mode .kpi-card small,
+body.dark-mode .kpi-card span {
+    color: #ECF0F1 !important;
+}
 /* ============================================================================
    Base Styles
    ============================================================================ */
